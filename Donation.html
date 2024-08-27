@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate to Sri Lakshmi Narasimar Temple</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body onload="loadClient()">
+    <header>
+        <h1>Sri LakshmiNarasimar Temple</h1>
+    </header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="Memories.html">Memories</a>
+        <a href="UpcomingEvents.html">Upcoming Events</a>
+        <a href="Donation.html" class="active">Donation</a>
+        <a href="AboutUs.html">About Us</a>
+    </nav>
+<body>
+    <div class="container">
+        <div class="content-box">
+        <h2>Donate to Sri Lakshmi Narasimar Temple</h2>
+        <p>Your generous donations help us maintain the temple and organize events for the community. Thank you for your support!</p>
+        <button id="donateButton">Donate Now</button>
+        </div>
+    </div>
+
+    <div id="donationDetails" class="modal">
+        <div class="Account">
+            <span class="close">&times;</span>
+            <h2>Donation Details</h2>
+            <img src="Image (1).jpg" alt="QR Code" class="qr-code">
+            <p>Account Name: Sri Lakshmi Narasimar Temple</p>
+            <p>Account Number: 1234567890</p>
+            <p>IFSC Code: ABCD0123456</p>
+            <p>Bank Name: Example Bank</p>
+        </div>
+    </div>
+
+    <audio id="donationSound">
+        <source src="indian-temple-bell-68150 (mp3cut.net).mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        var modal = document.getElementById("donationDetails");
+        var btn = document.getElementById("donateButton");
+        var span = document.getElementsByClassName("close")[0];
+        var sound = document.getElementById("donationSound");
+
+        btn.onclick = function() {
+            sound.play();
+            setTimeout(function() {
+            modal.style.display = "block";
+        }, 1000);
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
