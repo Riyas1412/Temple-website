@@ -193,6 +193,50 @@ iframe {
     height: 200px;
 }
 
+button {
+    background: linear-gradient(to right, #FFBF00, #FF7F00);
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+button:hover {
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px);
+}
+
+button:active {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.Account {
+    background-color: #ffffff;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.qr-code {
+    display: block;
+    margin: 20px auto; /* Centers the image horizontally */
+    width: 80%;
+    height: 80%;
+}
+
+
 /* Footer Styles */
 footer {
     background: #333;
@@ -244,3 +288,4 @@ footer p {
         width: 100%;
     }
 }
+
