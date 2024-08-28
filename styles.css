@@ -19,6 +19,8 @@ header h1 {
     margin: 0;
     font-family: 'Playfair Display', serif;
     font-size: 2.5em;
+    color: #FF4500;
+    font-weight: bold;
 }
 
 nav {
@@ -64,6 +66,8 @@ nav a:hover, nav a.active {
 }
 
 .content-box h2 {
+    text-align: center;
+    font-weight: bold;
     color: #FF7F00;
     margin-bottom: 15px;
     font-family: 'Playfair Display', serif;
@@ -85,8 +89,8 @@ img {
 }
 
 img:hover {
-    transform: scale(1.05);
-    opacity: 0.9;
+    transform: scale(1.01);
+    opacity: 0.96;
 }
 
 /* Gallery Styles */
@@ -210,6 +214,7 @@ button {
 button:hover {
     box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
     transform: translateY(-3px);
+    border-radius: 10px;
 }
 
 button:active {
@@ -294,4 +299,3 @@ footer p {
         width: 100%;
     }
 }
-
