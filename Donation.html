@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donate to Sri Lakshmi Narasimar Temple</title>
+    <title>Donate to Sri LakshmiNarasimar Temple</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
     <header>
-        <h1>Sri Lakshmi Narasimar Temple</h1>
+        <h1>Sri LakshmiNarasimarTemple</h1>
     </header>
     <nav>
         <a href="index.html">Home</a>
@@ -21,7 +20,7 @@
 
     <div id="donationSection" class="container">
         <div class="content-box">
-            <h2>Donate to Sri Lakshmi Narasimar Temple</h2>
+            <h2>Donate to Sri LakshmiNarasimar Temple</h2>
             <p>Your generous donations help us maintain the temple and organize events for the community. Thank you for your support!</p>
             <button id="donateButton">Donate Now</button>
         </div>
@@ -39,17 +38,26 @@
         </div>
     </div>
 
+    <div id="notification" class="notification" style="display:none;">
+        <p>You don't have a UPI option available.</p>
+        <button onclick="closeNotification()">Close</button>
+    </div>
+
     <audio id="donationSound">
         <source src="indian-temple-bell-68150 (mp3cut.net).mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
+    <div id="notification" style="display:none;" class="notification">
+        You don't have a UPI option available.
+    </div>
+
     <script>
         var donationSection = document.getElementById("donationSection");
         var donationDetails = document.getElementById("donationDetails");
         var donateButton = document.getElementById("donateButton");
-        var backButton = document.getElementById("backButton");
         var sound = document.getElementById("donationSound");
+        var notification = document.getElementById("notification");
 
         donateButton.onclick = function() {
             sound.play();
@@ -59,18 +67,40 @@
             }, 1000);
         }
 
-        backButton.onclick = function() {
-            donationDetails.style.display = "none";
-            donationSection.style.display = "block";
-        }
         function openUPIApp() {
-            const upiLink = "upi://pay?pa=6381237542@ptsbi&pn=Thulasidharan&cu=INR";
-            window.location.href = upiLink;
+        const upiLink = "upi://pay?pa=6381237542@ptsbi&pn=Thulasidharan&cu=INR";
+
+    window.location.href = upiLink;
+
+    setTimeout(function() {
+        if (document.visibilityState === 'visible') {
+            showNotification("You don't have a UPI option available");
         }
+    }, 2000);
+}
+
+function showNotification(message) {
+    var notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.innerText = message;
+    document.body.appendChild(notification);
+
+    setTimeout(function() {
+        notification.classList.add('show');
+    }, 100);
+
+    setTimeout(function() {
+        notification.classList.remove('show');
+        setTimeout(function() {
+            document.body.removeChild(notification);
+        }, 500);
+    }, 4000);
+}
     </script>
+
     <footer>
         © 2024 DevelopersKvp
     </footer>
+    
 </body>
 </html>
-
