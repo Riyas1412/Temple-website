@@ -115,18 +115,6 @@ img:hover {
     transition: transform 0.3s ease;
 }
 
-.gallery-img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.gallery-img:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
 /* Scrollbar Customization */
 .gallery::-webkit-scrollbar {
     width: 8px;
@@ -154,6 +142,7 @@ img:hover {
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.8);
     transition: opacity 0.3s ease;
+    padding: 10px;
 }
 
 .modal-content {
@@ -203,12 +192,12 @@ button {
     padding: 15px 30px;
     font-size: 18px;
     border: none;
-    border-radius: 50px;
     cursor: pointer;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 2px;
+    border-radius: 25px;
 }
 
 button:hover {
@@ -247,6 +236,29 @@ button:active {
     height: 80%;
 }
 
+/* Notification Styles */
+.notification {
+    background-color: #FF6347;
+    color: white;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%);
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    z-index: 1000;
+    text-align: center;
+    width: auto;
+    max-width: 80%;
+    transition: transform 0.5s ease-in-out;
+    opacity: 0.9;
+}
+
+.notification.show {
+    transform: translateX(-50%) translateY(0);
+}
 
 /* Footer Styles */
 footer {
