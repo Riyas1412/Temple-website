@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Add Event</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://apis.google.com/js/api.js"></script>
 </head>
 <body>
     <header>
@@ -37,59 +37,84 @@
         © 2024 DevelopersKvp
     </footer>
     <script>
-        function onGoogleSignIn(response) {
-            console.log("Google user signed in:", response);
-            loadGoogleAPI(); // Proceed to load the Drive API after successful sign-in
-        }
+        let isClientInitialized = false;
 
-        function loadGoogleAPI() {
-            gapi.load('client', ('client:auth2', initClient) => {
-                gapi.client.init({
-                    apiKey: 'AIzaSyC1P0ETn3zKPFjvcWlf2mLyCpKUZQw3K1I', // Replace with your API key
-                    discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
-                }).then(() => {
-                    console.log("Google API client initialized.");
-                    // Add your Drive API interaction code here
-                }).catch(error => {
-                    console.error("Error initializing Google API client:", error);
+        // Initialize the Google API client
+        function initClient() {
+            console.log("Initializing Google API client...");
+            return new Promise((resolve, reject) => {
+                gapi.load('client:auth2', () => {
+                    gapi.client.init({
+                        clientId: '205989153857-emgqbukjnhfsplmhq4ctqksoc6l6sal8.apps.googleusercontent.com', // Replace with your Client ID
+                        apiKey: 'AIzaSyC1P0ETn3zKPFjvcWlf2mLyCpKUZQw3K1I', // Replace with your API Key
+                        scope: 'https://www.googleapis.com/auth/drive.file',
+                    }).then(() => {
+                        isClientInitialized = true;
+                        console.log("Google API client initialized.");
+                        resolve();
+                    }).catch(error => {
+                        console.error("Error initializing Google API client:", error);
+                        reject(error);
+                    });
                 });
             });
         }
 
-        // Handle form submission
-        document.getElementById('event-form').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const eventName = document.getElementById('event-name').value;
-            const eventDate = document.getElementById('event-date').value;
-            const eventTime = document.getElementById('event-time').value;
-            const eventDescription = document.getElementById('event-description').value;
-            const eventData = { name: eventName, date: eventDate, time: eventTime, description: eventDescription };
-            uploadEvent(eventData);
-        });
-
+        // Upload an event to Google Drive
         function uploadEvent(eventData) {
+            if (!isClientInitialized) {
+                console.error('Google API client is not initialized.');
+                return;
+            }
+
+            console.log("Uploading event...");
             const fileMetadata = {
-                name: `event-${new Date().getTime()}.json`,
+                name: `event-${new Date().getTime()}.json`, // Unique filename based on timestamp
                 mimeType: 'application/json',
-                parents: ['1WSBUa2IPeZrxVZCKLxC-KeTFupHxoCIs'],
+                parents: ['1WSBUa2IPeZrxVZCKLxC-KeTFupHxoCIs'], // Replace with your Folder ID
             };
+
             const media = {
                 mimeType: 'application/json',
                 body: JSON.stringify(eventData),
             };
+
             gapi.client.drive.files.create({
                 resource: fileMetadata,
                 media: media,
                 fields: 'id',
             }).then(response => {
                 console.log('Event uploaded:', response.result);
-                showSubmissionStatus(true);
+                showSubmissionStatus(true); // Show success message
             }).catch(error => {
                 console.error('Error uploading event:', error);
-                showSubmissionStatus(false);
+                showSubmissionStatus(false); // Show failure message
             });
         }
 
+        // Handle form submission
+        document.getElementById('event-form').addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent the default form submission behavior
+
+            // Collect event data from form fields
+            const eventName = document.getElementById('event-name').value;
+            const eventDate = document.getElementById('event-date').value;
+            const eventTime = document.getElementById('event-time').value;
+            const eventDescription = document.getElementById('event-description').value;
+
+            // Create an event object
+            const eventData = {
+                name: eventName,
+                date: eventDate,
+                time: eventTime,
+                description: eventDescription,
+            };
+
+            // Call the function to upload the event
+            uploadEvent(eventData);
+        });
+
+        // Show submission status
         function showSubmissionStatus(success) {
             const statusElement = document.getElementById('submission-status');
             if (success) {
@@ -102,8 +127,11 @@
             statusElement.style.display = 'block';
             setTimeout(() => {
                 statusElement.style.display = 'none';
-            }, 3000);
+            }, 3000); // Hide the message after 3 seconds
         }
+
+        // Load the Google API client and initialize it
+        gapi.load('client:auth2', initClient);
     </script>
 </body>
 </html>
