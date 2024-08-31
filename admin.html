@@ -39,6 +39,9 @@
     <script>
         let isClientInitialized = false;
 
+        // Replace with your actual folder ID
+        const FOLDER_ID = '1WSBUa2IPeZrxVZCKLxC-KeTFupHxoCIs'; // Your actual folder ID
+
         // Initialize the Google API client
         function initClient() {
             return gapi.client.init({
@@ -62,6 +65,7 @@
             const fileMetadata = {
                 name: `event-${new Date().getTime()}.json`, // Unique filename based on timestamp
                 mimeType: 'application/json',
+                parents: [FOLDER_ID] // Specify the folder ID here
             };
 
             const media = {
@@ -72,8 +76,10 @@
             gapi.client.drive.files.create({
                 resource: fileMetadata,
                 media: media,
+                fields: 'id' // Request only the file ID in response
             }).then(function (response) {
-                console.log('Event uploaded:', response.result);
+                const fileId = response.result.id; // Capture the fileId
+                console.log('Event uploaded to folder with fileId:', fileId);
                 showSubmissionStatus(true); // Show success message
             }).catch(function (error) {
                 console.error('Error uploading event:', error);
@@ -84,8 +90,6 @@
         // Handle form submission
         document.getElementById('event-form').addEventListener('submit', function (e) {
             e.preventDefault(); // Prevent the default form submission behavior
-
-            console.log('Form submitted!');
 
             // Collect event data from form fields
             const eventName = document.getElementById('event-name').value;
