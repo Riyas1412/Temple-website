@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Add Event</title>
+    <link rel="icon" type="image/png" href="Title.png">
     <link rel="stylesheet" href="styles.css">
     <script src="https://apis.google.com/js/api.js"></script>
 </head>
@@ -37,40 +38,35 @@
         © 2024 DevelopersKvp
     </footer>
     <script>
-        // Replace with your actual Client ID from Google API Console
-        const CLIENT_ID = '205989153857-emgqbukjnhfsplmhq4ctqksoc6l6sal8.apps.googleusercontent.com'; 
-
-        // Replace with your actual Google Drive folder ID
-        const FOLDER_ID = '1WSBUa2IPeZrxVZCKLxC-KeTFupHxoCIs';
-
-        let isClientInitialized = false;
-
-        // Initialize the Google API client
+        // Function to initialize the Google API client
         function initClient() {
-            gapi.load('client:auth2', function() {
-                gapi.client.init({
-                    clientId: CLIENT_ID,
-                    scope: 'https://www.googleapis.com/auth/drive.file',
-                }).then(function () {
-                    isClientInitialized = true;
-                    console.log("Google API client initialized.");
-                }).catch(function(error) {
-                    console.error("Error initializing Google API client:", error);
+            return new Promise((resolve, reject) => {
+                gapi.load('client:auth2', () => {
+                    gapi.client.init({
+                        clientId: 'YOUR_CLIENT_ID.apps.googleusercontent.com', // Replace with your Client ID
+                        scope: 'https://www.googleapis.com/auth/drive.file',
+                    }).then(() => {
+                        console.log("Google API client initialized.");
+                        resolve();
+                    }).catch(error => {
+                        console.error("Error initializing Google API client:", error);
+                        reject(error);
+                    });
                 });
             });
         }
 
-        // Upload an event to Google Drive
+        // Function to upload an event to Google Drive
         function uploadEvent(eventData) {
-            if (!isClientInitialized) {
-                console.error("Google API client is not initialized.");
+            if (!gapi.auth2.getAuthInstance().isSignedIn.get()) {
+                console.error("User not signed in.");
                 return;
             }
 
             const fileMetadata = {
                 name: `event-${new Date().getTime()}.json`, // Unique filename based on timestamp
                 mimeType: 'application/json',
-                parents: [FOLDER_ID], // Specify the folder ID here
+                parents: ['YOUR_FOLDER_ID'], // Replace with your Folder ID
             };
 
             const media = {
@@ -81,17 +77,17 @@
             gapi.client.drive.files.create({
                 resource: fileMetadata,
                 media: media,
-                fields: 'id'
-            }).then(function (response) {
+                fields: 'id',
+            }).then(response => {
                 console.log('Event uploaded:', response.result);
                 showSubmissionStatus(true); // Show success message
-            }).catch(function (error) {
+            }).catch(error => {
                 console.error('Error uploading event:', error);
                 showSubmissionStatus(false); // Show failure message
             });
         }
 
-        // Handle form submission
+        // Function to handle form submission
         document.getElementById('event-form').addEventListener('submit', function (e) {
             e.preventDefault(); // Prevent the default form submission behavior
 
@@ -113,7 +109,7 @@
             uploadEvent(eventData);
         });
 
-        // Show submission status
+        // Function to show submission status
         function showSubmissionStatus(success) {
             const statusElement = document.getElementById('submission-status');
             if (success) {
@@ -130,8 +126,11 @@
         }
 
         // Load the Google API client and initialize it
-        initClient();
+        initClient().then(() => {
+            console.log("Client initialization successful.");
+        }).catch(error => {
+            console.error("Initialization failed:", error);
+        });
     </script>
 </body>
 </html>
-
