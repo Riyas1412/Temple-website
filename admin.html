@@ -43,7 +43,7 @@
         }
 
         function loadGoogleAPI() {
-            gapi.load('client', () => {
+            gapi.load('client', ('client:auth2', initClient) => {
                 gapi.client.init({
                     apiKey: 'AIzaSyC1P0ETn3zKPFjvcWlf2mLyCpKUZQw3K1I', // Replace with your API key
                     discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
