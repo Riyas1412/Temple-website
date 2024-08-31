@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Add Event</title>
-    <link rel="icon" type="image/png" href="Title.png">
     <link rel="stylesheet" href="styles.css">
     <script src="https://apis.google.com/js/api.js"></script>
 </head>
@@ -38,12 +37,12 @@
         © 2024 DevelopersKvp
     </footer>
     <script>
-        // Function to initialize the Google API client
+        // Initialize the Google API client
         function initClient() {
             return new Promise((resolve, reject) => {
                 gapi.load('client:auth2', () => {
                     gapi.client.init({
-                        clientId: 'YOUR_CLIENT_ID.apps.googleusercontent.com', // Replace with your Client ID
+                        clientId: '205989153857-emgqbukjnhfsplmhq4ctqksoc6l6sal8.apps.googleusercontent.com', // Replace with your Client ID
                         scope: 'https://www.googleapis.com/auth/drive.file',
                     }).then(() => {
                         console.log("Google API client initialized.");
@@ -56,7 +55,7 @@
             });
         }
 
-        // Function to upload an event to Google Drive
+        // Upload an event to Google Drive
         function uploadEvent(eventData) {
             if (!gapi.auth2.getAuthInstance().isSignedIn.get()) {
                 console.error("User not signed in.");
@@ -66,7 +65,7 @@
             const fileMetadata = {
                 name: `event-${new Date().getTime()}.json`, // Unique filename based on timestamp
                 mimeType: 'application/json',
-                parents: ['YOUR_FOLDER_ID'], // Replace with your Folder ID
+                parents: ['1WSBUa2IPeZrxVZCKLxC-KeTFupHxoCIs'], // Replace with your Folder ID
             };
 
             const media = {
@@ -87,7 +86,7 @@
             });
         }
 
-        // Function to handle form submission
+        // Handle form submission
         document.getElementById('event-form').addEventListener('submit', function (e) {
             e.preventDefault(); // Prevent the default form submission behavior
 
@@ -109,7 +108,7 @@
             uploadEvent(eventData);
         });
 
-        // Function to show submission status
+        // Show submission status
         function showSubmissionStatus(success) {
             const statusElement = document.getElementById('submission-status');
             if (success) {
@@ -126,7 +125,7 @@
         }
 
         // Load the Google API client and initialize it
-        initClient().then(() => {
+        gapi.load('client:auth2', initClient).then(() => {
             console.log("Client initialization successful.");
         }).catch(error => {
             console.error("Initialization failed:", error);
@@ -134,3 +133,4 @@
     </script>
 </body>
 </html>
+
